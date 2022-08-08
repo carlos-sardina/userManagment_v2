@@ -11,7 +11,7 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='users'>
-            <Route path='edit' element={<CreateEditUsers />} />
+            <Route path='edit/:id' element={<CreateEditUsers />} />
             <Route path='create' element={<CreateEditUsers />} />
           </Route>
         </Routes>

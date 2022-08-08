@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-unneeded-ternary */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,6 +22,7 @@ const getAvatar = (url) => (
 export const Home = () => {
   const users = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const deleteUser = (id) => {
     dispatch({ type: 'REMOVE_USER', payload: id });
@@ -31,7 +33,7 @@ export const Home = () => {
       users.map((user) => ({
         ...user,
         key: user.id,
-        edit: <Action>Edit</Action>,
+        edit: <Action onClick={() => navigate('/users/edit/' + user.id)}>Edit</Action>,
         delete: <Action onClick={() => deleteUser(user.id)}>Delete</Action>,
         avatar: getAvatar(user.avatarURL),
       })),
@@ -66,8 +68,6 @@ export const Home = () => {
     ],
     [],
   );
-
-  const navigate = useNavigate();
 
   return (
     <Container>

@@ -1,9 +1,11 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { composeValidations, isEmail, isUrl, required } from '../../utils/validations';
 import { Button } from '../../components';
 import {
   ButtonsContainer,
@@ -18,23 +20,28 @@ import {
 export const CreateEditUsers = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const user = useSelector((state) => state.users).filter((u) => u.id === Number(id))[0];
 
   const onSubmit = (values) => {
-    dispatch({ type: 'ADD_USER', payload: { ...values, id: Math.floor(Math.random() * 100) } });
+    if (id) {
+      dispatch({ type: 'UPDATE_USER', payload: { ...values, id: Number(id) } });
+    } else {
+      dispatch({ type: 'ADD_USER', payload: { ...values, id: Math.floor(Math.random() * 100) } });
+    }
+
     navigate('/');
   };
-
-  const required = (value) => (value ? undefined : 'Required');
 
   return (
     <Wrapper>
       <Container>
-        <Title>Create user</Title>
+        <Title>{user?.id ? 'Edit' : 'Create'} user</Title>
         <Form
           onSubmit={onSubmit}
           render={({ handleSubmit, submitting }) => (
             <form onSubmit={handleSubmit}>
-              <Field name='firstName' validate={required}>
+              <Field name='firstName' initialValue={user?.firstName} validate={required}>
                 {({ input, meta }) => (
                   <InputItem>
                     <Label>
@@ -45,7 +52,7 @@ export const CreateEditUsers = () => {
                   </InputItem>
                 )}
               </Field>
-              <Field name='lastName' validate={required}>
+              <Field name='lastName' initialValue={user?.lastName} validate={required}>
                 {({ input, meta }) => (
                   <InputItem>
                     <Label>
@@ -56,7 +63,11 @@ export const CreateEditUsers = () => {
                   </InputItem>
                 )}
               </Field>
-              <Field name='email' validate={required}>
+              <Field
+                name='email'
+                initialValue={user?.email}
+                validate={composeValidations(required, isEmail)}
+              >
                 {({ input, meta }) => (
                   <InputItem>
                     <Label>
@@ -67,7 +78,7 @@ export const CreateEditUsers = () => {
                   </InputItem>
                 )}
               </Field>
-              <Field name='avatarURL'>
+              <Field name='avatarURL' initialValue={user?.avatarURL} validate={isUrl}>
                 {({ input, meta }) => (
                   <InputItem>
                     <Label>Avatar URL</Label>

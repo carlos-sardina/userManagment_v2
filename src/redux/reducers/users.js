@@ -8,6 +8,15 @@ export default (state = initialState, { type, payload }) => {
     case usersTypes.add:
       return [...state, payload];
 
+    case usersTypes.update:
+      return state.map((user) => {
+        if (user.id === payload.id) {
+          return payload;
+        }
+
+        return user;
+      });
+
     case usersTypes.remove:
       return state.filter((user) => user.id !== payload);
     default:
