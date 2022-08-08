@@ -1,38 +1,42 @@
+/* eslint-disable no-unneeded-ternary */
 import React from 'react';
-import styled from '@emotion/styled';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Table, Button } from '../../components';
+import { Action, Container, ImageContainer, Row } from './Home.styled';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
+const getAvatar = (url) => (
+  <ImageContainer>
+    <img
+      src={
+        url
+          ? url
+          : 'https://as1.ftcdn.net/v2/jpg/03/53/11/00/1000_F_353110097_nbpmfn9iHlxef4EDIhXB1tdTD0lcWhG9.jpg'
+      }
+      alt='avatar'
+    />
+  </ImageContainer>
+);
 
 export const Home = () => {
-  const data = React.useMemo(
-    () => [
-      {
-        col1: 'Hello',
-        col2: 'World',
-      },
-      {
-        col1: 'react-table',
-        col2: 'rocks',
-      },
-      {
-        col1: 'whatever',
-        col2: 'you want',
-      },
-    ],
-    [],
-  );
+  const users = useSelector((state) => state.users);
+  const dispatch = useDispatch();
 
+  const deleteUser = (id) => {
+    dispatch({ type: 'REMOVE_USER', payload: id });
+  };
+
+  const data = React.useMemo(
+    () =>
+      users.map((user) => ({
+        ...user,
+        key: user.id,
+        edit: <Action>Edit</Action>,
+        delete: <Action onClick={() => deleteUser(user.id)}>Delete</Action>,
+        avatar: getAvatar(user.avatarURL),
+      })),
+    [users],
+  );
   const columns = React.useMemo(
     () => [
       {
@@ -52,11 +56,11 @@ export const Home = () => {
         accessor: 'email',
       },
       {
-        Header: 'Edit',
+        Header: 'Actions',
         accessor: 'edit',
       },
       {
-        Header: 'Delete',
+        Header: 'Actions',
         accessor: 'delete',
       },
     ],

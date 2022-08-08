@@ -3,6 +3,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
+import { useDispatch } from 'react-redux';
 import { Button } from '../../components';
 import {
   ButtonsContainer,
@@ -16,9 +17,11 @@ import {
 
 export const CreateEditUsers = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onSubmit = (values) => {
-    console.log(values);
+    dispatch({ type: 'ADD_USER', payload: { ...values, id: Math.floor(Math.random() * 100) } });
+    navigate('/');
   };
 
   const required = (value) => (value ? undefined : 'Required');
