@@ -26,16 +26,41 @@ export const Title = styled.h2`
   margin-bottom: 2.5rem;
 `;
 
-export const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const ButtonsContainer = styled.div`
   display: flex;
   margin-top: 1.5rem;
+  justify-content: space-around;
+`;
 
-  button:first-child {
-    margin-right: 1rem;
+export const Label = styled.label`
+  font-size: 0.8rem;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.5rem;
+  display: flex;
+
+  .required {
+    color: red;
+    margin-right: 0.2rem;
+  }
+`;
+
+export const Error = styled.span`
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  font-weight: bold;
+`;
+
+export const InputItem = styled.div`
+  margin-bottom: 1rem;
+
+  input {
+    border: 1px solid #cfd8dc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    box-sizing: border-box;
+    display: block;
   }
 `;

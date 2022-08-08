@@ -36,12 +36,28 @@ export const Home = () => {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Column 1',
-        accessor: 'col1',
+        Header: 'Avatar',
+        accessor: 'avatar',
       },
       {
-        Header: 'Column 2',
-        accessor: 'col2',
+        Header: 'First Name',
+        accessor: 'firstName',
+      },
+      {
+        Header: 'Last Name',
+        accessor: 'lastName',
+      },
+      {
+        Header: 'Email',
+        accessor: 'email',
+      },
+      {
+        Header: 'Edit',
+        accessor: 'edit',
+      },
+      {
+        Header: 'Delete',
+        accessor: 'delete',
       },
     ],
     [],

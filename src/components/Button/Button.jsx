@@ -19,8 +19,8 @@ const StyledButton = styled.button`
 `
 
 // eslint-disable-next-line react/prop-types
-export const Button = ({ text, onClick, isSecondary = false }) => {
+export const Button = ({ text, onClick, isSecondary = false, type = 'button', disabled = false }) => {
   return (
-    <StyledButton onClick={onClick} isSecondary={isSecondary}>{text}</StyledButton>
+    <StyledButton onClick={onClick && onClick} isSecondary={isSecondary} type={type} disabled={disabled}>{text}</StyledButton>
   )
 }
